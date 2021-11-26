@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# <package> prints package description
+
+set -euo pipefail
+
+nix-env -qaA "nixpkgs.$1" --json \
+| jq -r '.[] | .name + " " + .meta.description,
+         "",
+         (.meta.longDescription | rtrimstr("\n"))'

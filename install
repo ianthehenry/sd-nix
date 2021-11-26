@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# <package> use --latest to install from nixpkgs-unstable
+
+prefix="nixpkgs."
+package=""
+extra_args=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --latest)
+      prefix=""
+      extra_args="--file https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz"
+      shift
+      ;;
+    --*)
+      echo "i don't know what that means" 2>&1
+      exit 1
+      ;;
+    *)
+      if [[ -n $package ]]; then
+        echo "only one positional argument allowed" 2>&1
+        exit 1
+      fi
+      package="$1"
+      shift
+      ;;
+  esac
+done
+
+# shellcheck disable=SC2086
+nix-env -iA "$prefix$package" $extra_args

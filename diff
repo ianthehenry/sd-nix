@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# prints what will happen if you run sync
+
+diff -U 0 -d \
+  --label current <(nix-env -q) \
+  --label user.nix <(nix-env -qaf ~/dotfiles/user.nix) \
+| grep -v '^@'

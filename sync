@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# make user environment match ~/dotfiles/user.nix
+
+nix-env -irf ~/dotfiles/user.nix
