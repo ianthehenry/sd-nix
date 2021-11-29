@@ -1,7 +1,0 @@
-make user environment match ~/dotfiles/user.nix
-
-This will remove any packages you've installed with nix-env
-but have not added to user.nix. To see exactly what this
-will do, run:
-
-    sd nix diff
