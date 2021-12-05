@@ -1,10 +1,14 @@
-#!/usr/bin/env bash
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p janet jq bash
 
 set -euo pipefail
 
 # prints what will happen if you run sync
 
-diff -U 0 -d \
-  --label current <(nix-env -q) \
-  --label user.nix <(nix-env -qaf ~/dotfiles/user.nix) \
-| grep -v '^@'
+query() {
+  nix-env -q "$@" --json | jq -r '.[] | .pname + " " + .version'
+}
+
+janet "$(dirname "$0")/version-diff.janet" \
+  <(query) \
+  <(query -af ~/dotfiles/user.nix)
