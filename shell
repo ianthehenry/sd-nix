@@ -4,6 +4,5 @@
 
 set -euo pipefail
 
-rm -rf ./.nix-gc-roots
-nix-instantiate shell.nix --indirect --add-root ./.nix-gc-roots/shell.drv >/dev/null
+nix-build shell.nix -A inputDerivation -o .nix-shell-inputs >/dev/null
 nix-shell shell.nix
